@@ -8,6 +8,7 @@ import lombok.Data;
 public class Player {
 	
 	private String name;
-	private ColorEnum pieceColor;
+	
+	private TipoPlayer tipo;
 	
 }
