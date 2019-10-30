@@ -19,7 +19,7 @@ public class Action {
 		Integer posX = begin.getPositionX();
 		Integer posY = begin.getPositionY();
 
-		if (p1.getTipo() == board.getCurrentPlayer().getTipo()) {
+		if (p1.getType() == board.getCurrentPlayer().getType()) {
 			PositionDTO right = getRight(posX, posY, matriz);
 			PositionDTO left = getLeft(posX, posY, matriz);
 			if (right != null) {
@@ -134,16 +134,13 @@ public class Action {
 	
 	public static List<PositionDTO> getActionLady(Board board, PositionDTO begin) throws InvalidPieceException {
 		List<PositionDTO> list = new ArrayList<PositionDTO>();
-		Piece[][] matriz = board.getTable();
-		Integer posX = begin.getPositionX();
-		Integer posY = begin.getPositionY();
 
 		if (board.getTable()[begin.getPositionX()][begin.getPositionY()] == null) {
 			throw new InvalidPieceException("Piece not Found!");
 		}
 
-		if (board.getCurrentPlayer().getTipo() == board.getTable()[begin.getPositionX()][begin.getPositionY()]
-				.getTipo()) {
+		if (board.getCurrentPlayer().getType() == board.getTable()[begin.getPositionX()][begin.getPositionY()]
+				.getType()) {
 
 			List<PositionDTO> listPosFront = getFront(board.getTable(), begin);
 			List<PositionDTO> listPosBack = getBack(board.getTable(), begin);

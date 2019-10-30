@@ -3,7 +3,8 @@ package br.unifacisa.si2.models;
 import java.util.Arrays;
 
 import lombok.Data;
-
+import lombok.NoArgsConstructor;
+@NoArgsConstructor
 @Data
 public class Board {
 	public static final int BOARD_SIZE = 8;
@@ -20,10 +21,12 @@ public class Board {
 	
 	public Board(Piece[][] board) {
 		this.table = board;
-		
 	}
 	
 	public Board(Player pOne, Player pTwo) {
+		this.player1 = pOne;
+		this.player2 = pTwo;
+		
 		for (int i = 0; i < table.length; i++) {
 			if( i  <= 2 ) {
 				table[i] = createLine(i);
@@ -35,14 +38,14 @@ public class Board {
 		currentPlayer = pOne;
 	}	
 	
-	private PieceComun[] createLine(int index) {
+	private Piece[] createLine(int index) {
 		
-		PieceComun[] line = new PieceComun[8];
+		Piece[] line = new Piece[8];
 		for (int i = 0; i < line.length; i++) {
 			if (index % 2 == 0) {
-				line[i] = i % 2 == 0 ? new PieceComun(TipoPlayer.PLAYER2) : null; 
+				line[i] = i % 2 == 0 ? new Piece(TypePlayer.PLAYER2,false) : null; 
 			} else {
-				line[i] = i % 2 == 0 ? null : new PieceComun(TipoPlayer.PLAYER1); 
+				line[i] = i % 2 == 0 ? null : new Piece(TypePlayer.PLAYER1,false); 
 			}
 		}
 		return line;
@@ -50,7 +53,7 @@ public class Board {
 	}
 	
 	public static void main(String[] args) {
-		Board board = new Board(new Player("Hiago", TipoPlayer.PLAYER1),new Player("pedrocas",TipoPlayer.PLAYER2));
+		Board board = new Board(new Player("Hiago", TypePlayer.PLAYER1),new Player("pedrocas",TypePlayer.PLAYER2));
 		for (Piece[] l : board.getTable()) {
 			for (Piece p : l) {
 				if ( p != null) {

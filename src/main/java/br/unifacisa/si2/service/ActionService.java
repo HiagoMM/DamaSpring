@@ -11,39 +11,44 @@ import br.unifacisa.si2.dto.PositionDTO;
 import br.unifacisa.si2.dto.ReturnPossiblePositionDTO;
 import br.unifacisa.si2.models.Action;
 import br.unifacisa.si2.models.Board;
-import br.unifacisa.si2.models.PieceComun;
+import br.unifacisa.si2.models.Piece;
 import br.unifacisa.si2.models.exceptions.InvalidPieceException;
 import br.unifacisa.si2.service.exception.InvalidPositionException;
 
 @Service
 public class ActionService {
-	
-	
+
 	public ReturnPossiblePositionDTO getPossiblePosition(PositionAndBoardDTO position) throws InvalidPieceException {
 		Board board = position.getBoard();
 		PositionDTO begin = position.getPosition();
-		List<PositionDTO> list = new ArrayList();
+		List<PositionDTO> list = new ArrayList<PositionDTO>();
+		Piece[][] table = board.getTable();
 		
-		if ((board.getTable()[begin.getPositionX()][begin.getPositionY()]) instanceof PieceComun) {
-			list = Action.getActionComum(board, begin);
-		} else {
-			list = Action.getActionLady(board,begin);
+		int posx = begin.getPositionX();
+		int posy = begin.getPositionY();
+		
+		if (table[posx][posx] != null) {
+
+			if (!(table[posx][posy]).isDama()) {
+				list = Action.getActionComum(board, begin);
+			} else {
+				list = Action.getActionLady(board, begin);
+			}
+
+			return new ReturnPossiblePositionDTO(board, list);
 		}
-		
-		return new ReturnPossiblePositionDTO(board,list);
-		
+		throw new InvalidPieceException("Peça não existe");
+
 	}
 
 	public Board movPiece(MovPecaDTO posBoard) throws InvalidPositionException {
 		Board board = posBoard.getBoard();
-		
+
 		if (posBoard.getList().contains(posBoard.getEnd())) {
-			
-			
 			return board;
 		} else {
 			throw new InvalidPositionException("Posicão Invalida!");
 		}
 	}
-	
+
 }

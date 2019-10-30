@@ -1,6 +1,6 @@
 package br.unifacisa.si2.models;
 
-public enum TipoPlayer {
+public enum TypePlayer {
 	
 	PLAYER1,PLAYER2;
 	

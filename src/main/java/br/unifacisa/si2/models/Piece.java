@@ -1,13 +1,15 @@
 package br.unifacisa.si2.models;
 
-public abstract class Piece {
-	
-	abstract TipoPlayer getTipo();
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-	@Override
-	public String toString() {
-		return "Piece [getTipo()=" + getTipo() + "]";
-	}
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Piece {
 	
+	private TypePlayer type;
+	private boolean dama;
 	
 }

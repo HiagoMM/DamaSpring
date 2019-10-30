@@ -23,14 +23,14 @@ public class ActionController {
 	@Autowired
 	private ActionService service;
 	
-	@PostMapping
+	@PostMapping("check")
 	public ResponseEntity<ReturnPossiblePositionDTO> positionValid(@RequestBody PositionAndBoardDTO posBoard) throws InvalidPieceException {
 		return new ResponseEntity<ReturnPossiblePositionDTO>(service.getPossiblePosition(posBoard), HttpStatus.OK);
 	}
 	
-	@PostMapping
+	@PostMapping("mov")
 	public ResponseEntity<Board> movPiece(@RequestBody MovPecaDTO posBoard) throws InvalidPositionException {
-		return new ResponseEntity<> (service.movPiece(posBoard), HttpStatus.OK);
+		return new ResponseEntity<>(service.movPiece(posBoard), HttpStatus.OK);
 	}
 
 }
