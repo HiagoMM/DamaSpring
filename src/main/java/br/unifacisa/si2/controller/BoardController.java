@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,17 +25,20 @@ public class BoardController {
 	@Autowired
 	private ServiceBoard service;
 	
+	@CrossOrigin
 	@PostMapping
 	public ResponseEntity<Board> createBoard(@RequestBody PlayersDTO players) {
 		return new ResponseEntity<Board>(service.createBoard(players), HttpStatus.CREATED);
 	}
 	
+	@CrossOrigin
 	@PostMapping("save")
 	@ResponseStatus(value = HttpStatus.OK)
 	public void saveBoard(@RequestBody Board board) {
 		 service.saveBoard(board);
 	}
 	
+	@CrossOrigin
 	@GetMapping("{playerName}")
 	public ResponseEntity<List<Board>> getBoards(@PathVariable String playerName) {
 		return new ResponseEntity<List<Board>>(service.getBoards(), HttpStatus.OK);

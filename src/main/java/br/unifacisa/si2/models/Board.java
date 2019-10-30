@@ -29,23 +29,23 @@ public class Board {
 		
 		for (int i = 0; i < table.length; i++) {
 			if( i  <= 2 ) {
-				table[i] = createLine(i);
+				table[i] = createLine(i,TypePlayer.PLAYER1);
 			}
 			if (i >= 5) {
-				table[i] = createLine(i);
+				table[i] = createLine(i,TypePlayer.PLAYER2);
 			}
 		}
 		currentPlayer = pOne;
 	}	
 	
-	private Piece[] createLine(int index) {
+	private Piece[] createLine(int index,TypePlayer player) {
 		
 		Piece[] line = new Piece[8];
 		for (int i = 0; i < line.length; i++) {
 			if (index % 2 == 0) {
-				line[i] = i % 2 == 0 ? new Piece(TypePlayer.PLAYER2,false) : null; 
+				line[i] = i % 2 == 0 ? new Piece(player,false) : null; 
 			} else {
-				line[i] = i % 2 == 0 ? null : new Piece(TypePlayer.PLAYER1,false); 
+				line[i] = i % 2 == 0 ? null : new Piece(player,false); 
 			}
 		}
 		return line;

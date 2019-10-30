@@ -45,6 +45,7 @@ public class ActionService {
 		Board board = posBoard.getBoard();
 
 		if (posBoard.getList().contains(posBoard.getEnd())) {
+			//TODO IMPLEMENTACAO DE COMER A PEÇA
 			return board;
 		} else {
 			throw new InvalidPositionException("Posicão Invalida!");
