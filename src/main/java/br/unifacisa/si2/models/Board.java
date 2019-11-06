@@ -2,12 +2,19 @@ package br.unifacisa.si2.models;
 
 import java.util.Arrays;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
+@Document(collection = "board")
 public class Board {
 	public static final int BOARD_SIZE = 8;
+	
+	@Id
+	private String id;
 	
 	private Piece[][] table = new Piece[BOARD_SIZE][BOARD_SIZE];
 	

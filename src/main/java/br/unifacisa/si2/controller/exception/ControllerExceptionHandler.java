@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import br.unifacisa.si2.models.exceptions.InvalidPieceException;
-import br.unifacisa.si2.service.exception.InvalidPositionException;
+import br.unifacisa.si2.service.exception.*;
 
 @ControllerAdvice
 public class ControllerExceptionHandler {
@@ -24,6 +24,13 @@ public class ControllerExceptionHandler {
 	public ResponseEntity<ErrorDefault> positionValidException(InvalidPositionException e, HttpServletRequest request) {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
 				new ErrorDefault(HttpStatus.BAD_REQUEST.value(),System.currentTimeMillis(),e.getMessage())
+				);
+	}
+	
+	@ExceptionHandler(NotFoundBoardException.class)
+	public ResponseEntity<ErrorDefault> positionValidException(NotFoundBoardException e, HttpServletRequest request) {
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+				new ErrorDefault(HttpStatus.NOT_FOUND.value(),System.currentTimeMillis(),e.getMessage())
 				);
 	}
 }

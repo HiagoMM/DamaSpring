@@ -17,32 +17,39 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import br.unifacisa.si2.dto.PlayersDTO;
 import br.unifacisa.si2.models.Board;
 import br.unifacisa.si2.service.ServiceBoard;
+import br.unifacisa.si2.service.exception.NotFoundBoardException;
 
 @Controller
 @RequestMapping("/board")
+@CrossOrigin
 public class BoardController {
 	
 	@Autowired
 	private ServiceBoard service;
 	
-	@CrossOrigin
+
 	@PostMapping
 	public ResponseEntity<Board> createBoard(@RequestBody PlayersDTO players) {
 		return new ResponseEntity<Board>(service.createBoard(players), HttpStatus.CREATED);
 	}
 	
-	@CrossOrigin
 	@PostMapping("save")
 	@ResponseStatus(value = HttpStatus.OK)
-	public void saveBoard(@RequestBody Board board) {
-		 service.saveBoard(board);
+	public ResponseEntity<Board> saveBoard(@RequestBody Board board) {
+		return new ResponseEntity<Board>(service.saveBoard(board), HttpStatus.OK);
 	}
 	
-	@CrossOrigin
-	@GetMapping("{playerName}")
-	public ResponseEntity<List<Board>> getBoards(@PathVariable String playerName) {
+	@GetMapping("/all")
+	public ResponseEntity<List<Board>> getBoards() {
 		return new ResponseEntity<List<Board>>(service.getBoards(), HttpStatus.OK);
 	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<Board> getBoardsById(@PathVariable String id) throws NotFoundBoardException {
+		return new ResponseEntity<Board>(service.getBoardsById(id), HttpStatus.OK);
+	}
+	
+	
 	
 	
 }
