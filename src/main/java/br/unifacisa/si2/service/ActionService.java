@@ -10,6 +10,8 @@ import br.unifacisa.si2.dto.PositionAndBoardDTO;
 import br.unifacisa.si2.dto.PositionDTO;
 import br.unifacisa.si2.dto.ReturnPossiblePositionDTO;
 import br.unifacisa.si2.models.Action;
+import br.unifacisa.si2.models.ActionCommon;
+import br.unifacisa.si2.models.ActionLady;
 import br.unifacisa.si2.models.Board;
 import br.unifacisa.si2.models.Piece;
 import br.unifacisa.si2.models.exceptions.InvalidPieceException;
@@ -17,6 +19,8 @@ import br.unifacisa.si2.service.exception.InvalidPositionException;
 
 @Service
 public class ActionService {
+	
+	private Action action;
 
 	public ReturnPossiblePositionDTO getPossiblePosition(PositionAndBoardDTO position) throws InvalidPieceException {
 		Board board = position.getBoard();
@@ -30,9 +34,9 @@ public class ActionService {
 		if (table[posx][posx] != null) {
 
 			if (!(table[posx][posy]).isDama()) {
-				list = Action.getActionComum(board, begin);
+				list = new ActionLady().prevision(board, begin);
 			} else {
-				list = Action.getActionLady(board, begin);
+				list = new ActionCommon().prevision(board, begin);
 			}
 
 			return new ReturnPossiblePositionDTO(board, list);

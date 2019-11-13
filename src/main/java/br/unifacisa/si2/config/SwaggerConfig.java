@@ -25,7 +25,7 @@ public class SwaggerConfig {
 
 	@SuppressWarnings("rawtypes")
 	private ApiInfo metaInfo() {
-		ApiInfo apiInfo = new ApiInfo("DamaSpring", "API REST Musica", "1.0", "Terms of Service",
+		ApiInfo apiInfo = new ApiInfo("DamaSpring", "API REST Dama", "1.0", "Terms of Service",
 				new springfox.documentation.service.Contact("***", "", "***"),
 				"Apache License Version 2.0", "https://www.apache.org/licesen.html", new ArrayList<VendorExtension>());
 		return apiInfo;
