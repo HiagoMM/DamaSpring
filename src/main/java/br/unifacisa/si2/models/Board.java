@@ -36,10 +36,10 @@ public class Board {
 		
 		for (int i = 0; i < table.length; i++) {
 			if( i  <= 2 ) {
-				table[i] = createLine(i,TypePlayer.PLAYER1);
+				table[i] = createLine(i,TypePlayer.PLAYER2);
 			}
 			if (i >= 5) {
-				table[i] = createLine(i,TypePlayer.PLAYER2);
+				table[i] = createLine(i,TypePlayer.PLAYER1);
 			}
 		}
 		currentPlayer = pOne;
@@ -79,6 +79,10 @@ public class Board {
 		} else {
 			currentPlayer = player1;
 		}
+	}
+	
+	private Piece createPiece() {
+		return new Piece();
 	}
 
 	

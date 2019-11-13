@@ -20,7 +20,6 @@ import br.unifacisa.si2.service.exception.InvalidPositionException;
 @Service
 public class ActionService {
 	
-	private Action action;
 
 	public ReturnPossiblePositionDTO getPossiblePosition(PositionAndBoardDTO position) throws InvalidPieceException {
 		Board board = position.getBoard();
