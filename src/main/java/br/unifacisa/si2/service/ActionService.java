@@ -33,7 +33,7 @@ public class ActionService {
 		
 		if (table[posx][posx] != null) {
 
-			if (!(table[posx][posy]).isDama()) {
+			if (table[posx][posy].isDama()) {
 				list = new ActionLady().prevision(board, begin);
 			} else {
 				list = new ActionCommon().prevision(board, begin);
