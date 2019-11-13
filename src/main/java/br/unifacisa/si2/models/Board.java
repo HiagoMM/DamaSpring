@@ -5,6 +5,7 @@ import java.util.Arrays;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import ch.qos.logback.core.subst.Token.Type;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 @NoArgsConstructor
@@ -26,6 +27,8 @@ public class Board {
 	
 	private boolean status;
 	
+	private Integer tamanho;
+	
 	public Board(Piece[][] board) {
 		this.table = board;
 	}
@@ -35,7 +38,7 @@ public class Board {
 		this.player2 = pTwo;
 		
 		for (int i = 0; i < table.length; i++) {
-			if( i  <= 2 ) {
+			if (i <= 2) {
 				table[i] = createLine(i,TypePlayer.PLAYER2);
 			}
 			if (i >= 5) {
@@ -50,27 +53,13 @@ public class Board {
 		Piece[] line = new Piece[8];
 		for (int i = 0; i < line.length; i++) {
 			if (index % 2 == 0) {
-				line[i] = i % 2 == 0 ? new Piece(player,false) : null; 
+				line[i] = i % 2 == 0 ? createPiece(player) : null; 
 			} else {
-				line[i] = i % 2 == 0 ? null : new Piece(player,false); 
+				line[i] = i % 2 == 0 ? null : createPiece(player); 
 			}
 		}
 		return line;
 		
-	}
-	
-	public static void main(String[] args) {
-		Board board = new Board(new Player("Hiago", TypePlayer.PLAYER1),new Player("pedrocas",TypePlayer.PLAYER2));
-		for (Piece[] l : board.getTable()) {
-			for (Piece p : l) {
-				if ( p != null) {
-					System.out.print(p + " ");
-				} else {
-					System.out.print("      ");
-				}
-			}
-			System.out.println();
-		}
 	}
 	
 	public void reversePlayer() {
@@ -81,8 +70,8 @@ public class Board {
 		}
 	}
 	
-	private Piece createPiece() {
-		return new Piece();
+	private Piece createPiece(TypePlayer player) {
+		return new Piece(player, false);
 	}
 
 	

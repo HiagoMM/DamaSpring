@@ -7,8 +7,8 @@ import lombok.Data;
 @AllArgsConstructor
 public class PositionDTO {
 	
-	private int positionX;
-	
 	private int positionY;
+	
+	private int positionX;
 
 }

@@ -3,8 +3,14 @@ package br.unifacisa.si2.models;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.validator.internal.util.privilegedactions.NewProxyInstance;
+
+import br.unifacisa.si2.dto.PositionAndBoardDTO;
 import br.unifacisa.si2.dto.PositionDTO;
+import br.unifacisa.si2.dto.ReturnPossiblePositionDTO;
 import br.unifacisa.si2.models.exceptions.InvalidPieceException;
+import br.unifacisa.si2.service.ActionService;
+import net.bytebuddy.asm.Advice.Return;
 
 public class ActionCommon implements Action {
 
@@ -12,7 +18,7 @@ public class ActionCommon implements Action {
 		List<PositionDTO> list = new ArrayList<PositionDTO>();
 		Piece[][] matriz = board.getTable();
 
-		Piece p1 = matriz[begin.getPositionX()][begin.getPositionY()];
+		Piece p1 = matriz[begin.getPositionY()][begin.getPositionX()];
 		if (p1 == null) {
 			throw new InvalidPieceException("Piece not found!");
 		}
@@ -32,7 +38,6 @@ public class ActionCommon implements Action {
 		return list;
 	}
 	
-	// PLAYER 2
 	private List<PositionDTO> getPlayer1(Integer posX, Integer posY, Piece[][] matriz) {
 		List<PositionDTO> list = new ArrayList<PositionDTO>();
 		int posXright = posX;
@@ -46,40 +51,43 @@ public class ActionCommon implements Action {
 		posYleft--;
 		
 		if (posXright < 8 && posYright >= 0) {
-			Piece right = matriz[posXright][posYright];
+			Piece right = matriz[posYright][posXright];
 			if (right != null) {
-				posXright++;
-				posYright--;
-				if (posXright < 8 && posYright >= 0) {
-					right = matriz[posXright][posYright];
-					if (right != null) {
-						list.add(new PositionDTO(posXright, posYright));
+				if (right.getType() == TypePlayer.PLAYER2) {
+					posXright++;
+					posYright--;
+					if (posXright < 8 && posYright >= 0) {
+						right = matriz[posYright][posXright];
+						if (right != null) {
+							list.add(new PositionDTO(posYright, posXright));
+						}
 					}
 				}
 			} else {
-				list.add(new PositionDTO(posXright, posYright));
+				list.add(new PositionDTO(posYright, posXright));
 			}
 		}
 		
 		if (posXleft >= 0 && posYleft >= 0) {
-			Piece left = matriz[posXleft][posYright];
+			Piece left = matriz[posYleft][posXleft];
 			if (left != null) {
-				posXleft--;
-				posYleft--;
-				if (posXleft >= 0 && posYleft >= 0) {
-					left = matriz[posXleft][posYleft];
-					if (left != null) {
-						list.add(new PositionDTO(posXleft, posYleft));
+				if (left.getType() == TypePlayer.PLAYER2) {
+					posXleft--;
+					posYleft--;
+					if (posXleft >= 0 && posYleft >= 0) {
+						left = matriz[posYleft][posXleft];
+						if (left != null) {
+							list.add(new PositionDTO(posYleft, posXleft));
+						}
 					}
 				}
 			} else {
-				list.add(new PositionDTO(posXleft, posYleft));
+				list.add(new PositionDTO(posYleft, posXleft));
 			}
 		}
 		return list;
 	}
 	
-	// PLAYER 2
 	private List<PositionDTO> getPlayer2(Integer posX, Integer posY, Piece[][] matriz) {
 		List<PositionDTO> list = new ArrayList<PositionDTO>();
 		int posXright = posX;
@@ -93,37 +101,58 @@ public class ActionCommon implements Action {
 		posYleft++;
 		
 		if (posXright >= 0 && posYright < 8) {
-			Piece right = matriz[posXright][posYright];
+			Piece right = matriz[posYright][posXright];
 			if (right != null) {
-				posXright++;
-				posYright--;
-				if (posXright >= 0 && posYright < 8) {
-					right = matriz[posXright][posYright];
-					if (right != null) {
-						list.add(new PositionDTO(posXright, posYright));
+				if (right.getType() == TypePlayer.PLAYER1) {
+					posXright--;
+					posYright++;
+					if (posXright >= 0 && posYright < 8) {
+						right = matriz[posYright][posXright];
+						if (right != null) {
+							list.add(new PositionDTO(posYright, posXright));
+						}
 					}
 				}
 			} else {
-				list.add(new PositionDTO(posXright, posYright));
+				list.add(new PositionDTO(posYright, posXright));
 			}
 		}
 		
 		if (posXleft < 8 && posYleft < 8) {
-			Piece left = matriz[posXleft][posYright];
+			Piece left = matriz[posYright][posXleft];
 			if (left != null) {
-				posXleft--;
-				posYleft--;
-				if (posXleft < 8 && posYleft < 8) {
-					left = matriz[posXleft][posYleft];
-					if (left != null) {
-						list.add(new PositionDTO(posXleft, posYleft));
+				if (left.getType() == TypePlayer.PLAYER1) {
+					posXleft++;
+					posYleft++;
+					if (posXleft < 8 && posYleft < 8) {
+						left = matriz[posYleft][posXleft];
+						if (left != null) {
+							list.add(new PositionDTO(posYleft, posXleft));
+						}
 					}
 				}
 			} else {
-				list.add(new PositionDTO(posXleft, posYleft));
+				list.add(new PositionDTO(posYleft, posXleft));
 			}
 		}
 		return list;
+	}
+	
+	public static void main(String[] args) throws InvalidPieceException {
+		
+		Board board = new Board(new Player("James Marcos", TypePlayer.PLAYER1), new Player("Marcos James", TypePlayer.PLAYER2));
+		board.setCurrentPlayer(new Player("Marcos James", TypePlayer.PLAYER2));
+		ActionService s = new ActionService();
+		
+		ReturnPossiblePositionDTO  r = s.getPossiblePosition(new PositionAndBoardDTO(board, new PositionDTO(2, 2)));
+		
+		for (PositionDTO c : r.getPosition()) {
+			System.out.println(c.getPositionX() + " " + c.getPositionY());
+		}
+		
+		
+		
+		
 	}
 
 }

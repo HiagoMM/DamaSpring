@@ -1,6 +1,5 @@
 package br.unifacisa.si2.dto;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import br.unifacisa.si2.models.Board;

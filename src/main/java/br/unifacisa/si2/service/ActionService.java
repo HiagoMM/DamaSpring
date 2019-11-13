@@ -9,13 +9,11 @@ import br.unifacisa.si2.dto.MovPecaDTO;
 import br.unifacisa.si2.dto.PositionAndBoardDTO;
 import br.unifacisa.si2.dto.PositionDTO;
 import br.unifacisa.si2.dto.ReturnPossiblePositionDTO;
-import br.unifacisa.si2.models.Action;
 import br.unifacisa.si2.models.ActionCommon;
 import br.unifacisa.si2.models.ActionLady;
 import br.unifacisa.si2.models.Board;
 import br.unifacisa.si2.models.Piece;
 import br.unifacisa.si2.models.exceptions.InvalidPieceException;
-import br.unifacisa.si2.service.exception.InvalidPositionException;
 
 @Service
 public class ActionService {
@@ -30,9 +28,9 @@ public class ActionService {
 		int posx = begin.getPositionX();
 		int posy = begin.getPositionY();
 		
-		if (table[posx][posx] != null) {
+		if (table[posy][posx] != null) {
 
-			if (table[posx][posy].isDama()) {
+			if (table[posy][posx].isDama()) {
 				list = new ActionLady().prevision(board, begin);
 			} else {
 				list = new ActionCommon().prevision(board, begin);
@@ -44,15 +42,9 @@ public class ActionService {
 
 	}
 
-	public Board movPiece(MovPecaDTO posBoard) throws InvalidPositionException {
-		Board board = posBoard.getBoard();
-
-		if (posBoard.getList().contains(posBoard.getEnd())) {
-			//TODO IMPLEMENTACAO DE COMER A PEÇA
-			return board;
-		} else {
-			throw new InvalidPositionException("Posicão Invalida!");
-		}
+	public Board movPiece(MovPecaDTO posBoard) {
+		return null;
 	}
+
 
 }
