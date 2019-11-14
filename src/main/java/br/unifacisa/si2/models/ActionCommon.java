@@ -8,6 +8,14 @@ import br.unifacisa.si2.models.exceptions.InvalidPieceException;
 
 public class ActionCommon implements Action {
 
+	public static final int[] TOP_LEFT = { -1, -1 };
+	public static final int[] TOP_RIGHT = { -1, 1 };
+
+	public static final int[] BOTTOM_LEFT = { 1, -1 };
+	public static final int[] BOTTOM_RIGHT = { 1, 1 };
+
+	public static final int[][] ALL_SIDES = { BOTTOM_RIGHT, BOTTOM_LEFT, TOP_RIGHT, TOP_LEFT };
+
 	public List<PositionDTO> prevision(Board board, PositionDTO begin) throws InvalidPieceException {
 		List<PositionDTO> list = new ArrayList<PositionDTO>();
 		Piece[][] matriz = board.getTable();
@@ -33,107 +41,91 @@ public class ActionCommon implements Action {
 
 	private List<PositionDTO> getPlayer1(Integer posX, Integer posY, Piece[][] matriz) {
 		List<PositionDTO> list = new ArrayList<PositionDTO>();
-		int posXright = posX;
-		int posYright = posY;
-		int posXleft = posX;
-		int posYleft = posY;
 
-		posXright++;
-		posYright--;
-		posXleft--;
-		posYleft--;
+		checkPlay(posX, posY, matriz, list, TOP_RIGHT, TypePlayer.PLAYER2);
+		checkPlay(posX, posY, matriz, list, TOP_LEFT, TypePlayer.PLAYER2);
 
-		if (posXright < 8 && posYright >= 0) {
-			Piece right = matriz[posYright][posXright];
-			if (right != null) {
-				if (right.getType() == TypePlayer.PLAYER2 ) {
-					PositionDTO eat = new PositionDTO(posYright, posXright);
-					posXright++;
-					posYright--;
-					if (posXright < 8 && posYright >= 0) {
-						right = matriz[posYright][posXright];
-						if (right == null) {
-							list.add(new PositionDTO(posYright, posXright, eat));
-						}
-					}
-				}
-			} else {
-				list.add(new PositionDTO(posYright, posXright));
-			}
-		}
-
-		if (posXleft >= 0 && posYleft >= 0) {
-			Piece left = matriz[posYleft][posXleft];
-			if (left != null) {
-				if (left.getType() == TypePlayer.PLAYER2 ) {
-					PositionDTO eat = new PositionDTO(posYleft, posXleft);
-					posXleft--;
-					posYleft--;
-					if (posXleft >= 0 && posYleft >= 0) {
-						left = matriz[posYleft][posXleft];
-						if (left == null) {
-							list.add(new PositionDTO(posYleft, posXleft, eat));
-						}
-					}
-				}
-			} else {
-				list.add(new PositionDTO(posYleft, posXleft));
-			}
-		}
 		return list;
 	}
 
 	private List<PositionDTO> getPlayer2(Integer posX, Integer posY, Piece[][] matriz) {
 		List<PositionDTO> list = new ArrayList<PositionDTO>();
-		int posXright = posX;
-		int posYright = posY;
-		int posXleft = posX;
-		int posYleft = posY;
 
-		posXright--;
-		posYright++;
+		checkPlay(posX, posY, matriz, list, BOTTOM_RIGHT, TypePlayer.PLAYER1);
+		checkPlay(posX, posY, matriz, list, BOTTOM_LEFT, TypePlayer.PLAYER1);
 
-		posXleft++;
-		posYleft++;
-
-		if (posXright >= 0 && posYright < 8) {
-			Piece right = matriz[posYright][posXright];
-			if (right != null) {
-				if (right.getType() == TypePlayer.PLAYER1 ) {
-					PositionDTO eat = new PositionDTO(posYright, posXright);
-					posXright--;
-					posYright++;
-					if (posXright >= 0 && posYright < 8) {
-						right = matriz[posYright][posXright];
-						if (right == null) {
-							list.add(new PositionDTO(posYright, posXright, eat));
-						}
-					}
-				}
-			} else {
-				list.add(new PositionDTO(posYright, posXright));
-			}
-		}
-
-		if (posXleft < 8 && posYleft < 8) {
-			Piece left = matriz[posYleft][posXleft];
-			if (left != null) {
-				if (left.getType() == TypePlayer.PLAYER1 ) {
-					PositionDTO eat = new PositionDTO(posYleft, posXleft);
-					posXleft++;
-					posYleft++;
-					if (posXleft < 8 && posYleft < 8) {
-						left = matriz[posYleft][posXleft];
-						if (left == null) {
-							list.add(new PositionDTO(posYleft, posXleft, eat));
-						}
-					}
-				}
-			} else {
-				list.add(new PositionDTO(posYleft, posXleft));
-			}
-		}
 		return list;
+	}
+
+	private void checkPlay(int posX, int posY, Piece[][] matriz, List<PositionDTO> list, int[] pos, TypePlayer player) {
+		int anchorPosX = posX;
+		int anchorPosY = posY;
+		posX += pos[1];
+		posY += pos[0];
+		if (inBoard(posX, posY)) {
+			Piece piece = matriz[posY][posX];
+			if (piece == null) {
+				list.add(new PositionDTO(posY, posX));
+			}
+		}
+		checkEat(anchorPosX, anchorPosY, matriz, list, ALL_SIDES, player, null);
+
+	}
+
+	private void checkEat(int posX, int posY, Piece[][] matriz, List<PositionDTO> list, int[][] sides,
+			TypePlayer player,PositionDTO eatablePosPrev) {
+		int anchorPosX = posX;
+		int anchorPosY = posY;
+	
+		for (int[] side : sides) {
+			posY += side[0];
+			posX += side[1];
+			if (inBoard(posX,posY)) {
+				Piece piece = matriz[posY][posX];
+				if (piece != null && piece.getType() == player) {
+					PositionDTO eat;
+					if (eatablePosPrev != null ) {
+						eat = new PositionDTO(posY, posX,eatablePosPrev.getEat());
+					} else {
+						eat = new PositionDTO(posY, posX);
+					}
+					posY += side[0];
+					posX += side[1];
+					if (inBoard(posX, posY)) {
+						piece = matriz[posY][posX];
+						if (piece == null) {
+							PositionDTO eatablePos = new PositionDTO(posY, posX, eat);
+							list.add(eatablePos);
+							
+							checkEat(posX, posY, matriz, list, player, side.clone(), eatablePos);
+						}
+					}
+				}
+			}
+			posX = anchorPosX;
+			posY = anchorPosY;
+		}
+	}
+
+	private void checkEat(int posX, int posY, Piece[][] matriz, List<PositionDTO> list, 
+			TypePlayer player, int[] exclude,PositionDTO eatablePosPrev) {
+		int[][] newSides = new int[3][2];
+		int cont = 0;
+		exclude[0] = exclude[0] * -1;
+		exclude[1] = exclude[1] * -1;
+		System.out.println();
+		for (int[] side : ALL_SIDES.clone()) {
+			if (!(side[0] == exclude[0] && side[1] == exclude[1])) {
+				newSides[cont] = side;
+				cont++;
+			}	
+		}
+		checkEat(posX, posY, matriz, list, newSides, player, eatablePosPrev);
+		
+	}
+
+	private boolean inBoard(int posX, int posY) {
+		return posX >= 0 && posY < 8 && posY >= 0 && posX < 8;
 	}
 
 }

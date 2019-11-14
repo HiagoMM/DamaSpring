@@ -53,24 +53,31 @@ public class ActionService {
 		predictions = predictions.stream()
 				.filter(pre -> pre.getPositionX() == end.getPositionX() && pre.getPositionY() == end.getPositionY())
 				.collect(Collectors.toList());
-		
+
 		PositionDTO eat = predictions.size() > 0 ? predictions.get(0).getEat() : null;
-		
+
 		if (predictions.size() > 0) {
 			table[end.getPositionY()][end.getPositionX()] = table[begin.getPositionY()][begin.getPositionX()];
 			table[begin.getPositionY()][begin.getPositionX()] = null;
-			if (eat != null) {
-				Piece eatPiece = table[eat.getPositionY()][eat.getPositionX()];
-				board = incCounter(board, eatPiece);
-				table[eat.getPositionY()][eat.getPositionX()] = null;
-			}
+			
+			eat(table, board, eat);
+
 			board = swapPlayer(board);
 		}
-
 		return board;
 	}
-		
-	private Board incCounter(Board board,Piece piece) {
+
+	private Board eat(Piece[][] table, Board board, PositionDTO eat) {
+		while (eat != null) {
+			Piece eatPiece = table[eat.getPositionY()][eat.getPositionX()];
+			board = incCounter(board, eatPiece);
+			table[eat.getPositionY()][eat.getPositionX()] = null;
+			eat = eat.getEat();
+		}
+		return board;
+	}
+
+	private Board incCounter(Board board, Piece piece) {
 		if (piece.getType().equals(TypePlayer.PLAYER1)) {
 			board.setP1Counter(board.getP1Counter() + 1);
 		} else {
@@ -78,7 +85,7 @@ public class ActionService {
 		}
 		return board;
 	}
-	
+
 	private Board swapPlayer(Board board) {
 		if (board.getCurrentPlayer().equals(board.getPlayer1())) {
 			board.setCurrentPlayer(board.getPlayer2());
