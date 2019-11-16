@@ -23,6 +23,10 @@ public class Board {
 	
 	private Player player2;
 	
+	private int p1Counter;
+	
+	private int p2Counter;
+	
 	private Player currentPlayer;
 	
 	private boolean status;

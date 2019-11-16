@@ -31,7 +31,7 @@ public class ActionController {
 	}
 	
 	@PostMapping("mov")
-	public ResponseEntity<Board> movPiece(@RequestBody MovPecaDTO posBoard) throws InvalidPositionException {
+	public ResponseEntity<Board> movPiece(@RequestBody MovPecaDTO posBoard) throws InvalidPositionException, InvalidPieceException {
 		return new ResponseEntity<>(service.movPiece(posBoard), HttpStatus.OK);
 	}
 
