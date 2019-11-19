@@ -59,12 +59,23 @@ public class ActionService {
 		if (predictions.size() > 0) {
 			table[end.getPositionY()][end.getPositionX()] = table[begin.getPositionY()][begin.getPositionX()];
 			table[begin.getPositionY()][begin.getPositionX()] = null;
-			
 			eat(table, board, eat);
-
+			setDama(table, board, end);
 			board = swapPlayer(board);
 		}
 		return board;
+	}
+
+	private void setDama(Piece[][] table, Board board, PositionDTO end) {
+		if (board.getCurrentPlayer().getType() == TypePlayer.PLAYER1) {
+			if (end.getPositionY() == 0) {
+				table[end.getPositionY()][end.getPositionX()].setDama(true);
+			}
+		} else {
+			if (end.getPositionY() == 7) {
+				table[end.getPositionY()][end.getPositionX()].setDama(true);
+			}
+		}
 	}
 
 	private Board eat(Piece[][] table, Board board, PositionDTO eat) {
