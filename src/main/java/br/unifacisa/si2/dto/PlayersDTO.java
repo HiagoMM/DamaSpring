@@ -10,4 +10,6 @@ public class PlayersDTO {
 	
 	private Player player2;
 	
+	private Integer size;
+	
 }

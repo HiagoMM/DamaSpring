@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import br.unifacisa.si2.dto.MovPecaDTO;
 import br.unifacisa.si2.dto.PositionAndBoardDTO;
 import br.unifacisa.si2.dto.ReturnPossiblePositionDTO;
-import br.unifacisa.si2.models.Board;
+import br.unifacisa.si2.models.Game;
 import br.unifacisa.si2.models.exceptions.InvalidPieceException;
 import br.unifacisa.si2.service.ActionService;
 import br.unifacisa.si2.service.exception.InvalidPositionException;
@@ -31,7 +31,7 @@ public class ActionController {
 	}
 	
 	@PostMapping("mov")
-	public ResponseEntity<Board> movPiece(@RequestBody MovPecaDTO posBoard) throws InvalidPositionException, InvalidPieceException {
+	public ResponseEntity<Game> movPiece(@RequestBody MovPecaDTO posBoard) throws InvalidPositionException, InvalidPieceException {
 		return new ResponseEntity<>(service.movPiece(posBoard), HttpStatus.OK);
 	}
 

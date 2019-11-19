@@ -9,8 +9,8 @@ import br.unifacisa.si2.models.exceptions.InvalidPieceException;
 public class ActionLady implements Action {
 
 	@Override
-	public List<PositionDTO> prevision(Board board, PositionDTO begin) throws InvalidPieceException {
-		Piece[][] matriz = board.getTable();
+	public List<PositionDTO> prevision(Game board, PositionDTO begin) throws InvalidPieceException {
+		Piece[][] matriz = board.getBoard().getBoard();
 
 		Piece p1 = matriz[begin.getPositionX()][begin.getPositionY()];
 		if (p1 == null) {
@@ -40,29 +40,29 @@ public class ActionLady implements Action {
 
 		while (rightBackDiagonalControl || rightDiagonalControl || leftDiagonalControl || leftBackDiagonalControl) {
 			if (posXrightDiagonal < 8 && posYrightDiagonal >= 0 && rightBackDiagonalControl) {
-				if (matriz[posXrightDiagonal++][posYrightDiagonal--] == null) {
-					list.add(new PositionDTO(posXrightDiagonal, posYrightDiagonal));
+				if (matriz[posYrightDiagonal++][posXrightDiagonal--] == null) {
+					list.add(new PositionDTO(posYrightDiagonal, posXrightDiagonal));
 				}
 			} else {
 				rightDiagonalControl = false;
 			}
 			if (posXleftDiagonal >= 0 && posYleftDiagonal >= 0 && leftDiagonalControl) {
-				if (matriz[posXleftDiagonal--][posYleftDiagonal--] == null) {
-					list.add(new PositionDTO(posXleftDiagonal, posYleftDiagonal));
+				if (matriz[posYleftDiagonal--][posXleftDiagonal--] == null) {
+					list.add(new PositionDTO(posYleftDiagonal,posXleftDiagonal ));
 				}
 			} else {
 				leftDiagonalControl = false;
 			}
 			if (posXrightBackDiagonal >= 0 && posYrightBackDiagonal < 8 && rightBackDiagonalControl) {
-				if (matriz[posXrightBackDiagonal--][posYrightBackDiagonal] == null) {
-					list.add(new PositionDTO(posXrightBackDiagonal, posYrightBackDiagonal));
+				if (matriz[posYrightBackDiagonal--][posXrightBackDiagonal] == null) {
+					list.add(new PositionDTO(posYrightBackDiagonal, posXrightBackDiagonal));
 				}
 			} else {
 				rightBackDiagonalControl = false;
 			}
 			if (posXleftBackDiagonal < 8 && posYleftBackDiagonal < 8 && leftBackDiagonalControl) {
-				if (matriz[posXleftBackDiagonal++][posYleftBackDiagonal++] == null) {
-					list.add(new PositionDTO(posXleftBackDiagonal, posYleftBackDiagonal));
+				if (matriz[posYleftBackDiagonal++][posXleftBackDiagonal++] == null) {
+					list.add(new PositionDTO(posYleftBackDiagonal, posXleftBackDiagonal));
 				}
 			} else {
 				leftBackDiagonalControl = false;

@@ -6,8 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.unifacisa.si2.dto.PlayersDTO;
-import br.unifacisa.si2.models.Board;
+import br.unifacisa.si2.models.Game;
 import br.unifacisa.si2.models.TypePlayer;
+import br.unifacisa.si2.models.exceptions.SizeBoardException;
 import br.unifacisa.si2.repository.BoardRepository;
 import br.unifacisa.si2.service.exception.NotFoundBoardException;
 
@@ -17,21 +18,21 @@ public class ServiceBoard {
 	@Autowired
 	private BoardRepository repository;
 
-	public Board createBoard(PlayersDTO players) {
+	public Game createBoard(PlayersDTO players) throws SizeBoardException {
 		players.getPlayer1().setType(TypePlayer.PLAYER1);
 		players.getPlayer2().setType(TypePlayer.PLAYER2);
-		return new Board(players.getPlayer1(), players.getPlayer2());
+		return new Game(players.getPlayer1(), players.getPlayer2(),players.getSize());
 	}
 
-	public Board saveBoard(Board board) {
+	public Game saveBoard(Game board) {
 		return repository.insert(board);
 	}
 
-	public List<Board> getBoards() {
+	public List<Game> getBoards() {
 		return repository.findAll();
 	}
 
-	public Board getBoardsById(String id) throws NotFoundBoardException {
+	public Game getBoardsById(String id) throws NotFoundBoardException {
 		return repository.findById(id).orElseThrow(() -> new NotFoundBoardException("Jogo de Id: " + id + " não encontrado"));
 	}
 	

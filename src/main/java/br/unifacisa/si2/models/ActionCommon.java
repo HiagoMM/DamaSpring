@@ -16,9 +16,9 @@ public class ActionCommon implements Action {
 
 	public static final int[][] ALL_SIDES = { BOTTOM_RIGHT, BOTTOM_LEFT, TOP_RIGHT, TOP_LEFT };
 
-	public List<PositionDTO> prevision(Board board, PositionDTO begin) throws InvalidPieceException {
+	public List<PositionDTO> prevision(Game board, PositionDTO begin) throws InvalidPieceException {
 		List<PositionDTO> list = new ArrayList<PositionDTO>();
-		Piece[][] matriz = board.getTable();
+		Piece[][] matriz = board.getBoard().getBoard();
 
 		Piece p1 = matriz[begin.getPositionY()][begin.getPositionX()];
 		if (p1 == null) {
