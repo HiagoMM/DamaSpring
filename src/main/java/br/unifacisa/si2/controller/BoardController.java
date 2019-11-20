@@ -15,7 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import br.unifacisa.si2.dto.PlayersDTO;
-import br.unifacisa.si2.models.Board;
+import br.unifacisa.si2.models.Game;
+import br.unifacisa.si2.models.exceptions.SizeBoardException;
 import br.unifacisa.si2.service.ServiceBoard;
 import br.unifacisa.si2.service.exception.NotFoundBoardException;
 
@@ -29,24 +30,24 @@ public class BoardController {
 	
 
 	@PostMapping
-	public ResponseEntity<Board> createBoard(@RequestBody PlayersDTO players) {
-		return new ResponseEntity<Board>(service.createBoard(players), HttpStatus.CREATED);
+	public ResponseEntity<Game> createBoard(@RequestBody PlayersDTO players) throws SizeBoardException {
+		return new ResponseEntity<Game>(service.createBoard(players), HttpStatus.CREATED);
 	}
 	
 	@PostMapping("save")
 	@ResponseStatus(value = HttpStatus.OK)
-	public ResponseEntity<Board> saveBoard(@RequestBody Board board) {
-		return new ResponseEntity<Board>(service.saveBoard(board), HttpStatus.OK);
+	public ResponseEntity<Game> saveBoard(@RequestBody Game board) {
+		return new ResponseEntity<Game>(service.saveBoard(board), HttpStatus.OK);
 	}
 	
 	@GetMapping("/all")
-	public ResponseEntity<List<Board>> getBoards() {
-		return new ResponseEntity<List<Board>>(service.getBoards(), HttpStatus.OK);
+	public ResponseEntity<List<Game>> getBoards() {
+		return new ResponseEntity<List<Game>>(service.getBoards(), HttpStatus.OK);
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Board> getBoardsById(@PathVariable String id) throws NotFoundBoardException {
-		return new ResponseEntity<Board>(service.getBoardsById(id), HttpStatus.OK);
+	public ResponseEntity<Game> getBoardsById(@PathVariable String id) throws NotFoundBoardException {
+		return new ResponseEntity<Game>(service.getBoardsById(id), HttpStatus.OK);
 	}
 	
 	

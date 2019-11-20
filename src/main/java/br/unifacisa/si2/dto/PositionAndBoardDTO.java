@@ -1,6 +1,6 @@
 package br.unifacisa.si2.dto;
 
-import br.unifacisa.si2.models.Board;
+import br.unifacisa.si2.models.Game;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -8,7 +8,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class PositionAndBoardDTO {
 	
-	private Board board;
+	private Game board;
 	
 	private PositionDTO position;	
 	

@@ -7,5 +7,5 @@ import br.unifacisa.si2.models.exceptions.InvalidPieceException;
 
 public interface Action {
 
-	public List<PositionDTO> prevision(Board board, PositionDTO begin) throws InvalidPieceException;
+	public List<PositionDTO> prevision(Game board, PositionDTO begin) throws InvalidPieceException;
 }

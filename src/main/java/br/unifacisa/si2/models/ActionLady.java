@@ -14,8 +14,8 @@ public class ActionLady implements Action {
 	public static final int[] BOTTOM_RIGHT = { 1, 1 };
 
 	@Override
-	public List<PositionDTO> prevision(Board board, PositionDTO begin) throws InvalidPieceException {
-		Piece[][] matriz = board.getTable();
+	public List<PositionDTO> prevision(Game board, PositionDTO begin) throws InvalidPieceException {
+		Piece[][] matriz = board.getBoard().getBoard();
 
 		Piece p1 = matriz[begin.getPositionY()][begin.getPositionX()];
 		if (p1 == null) {
