@@ -34,7 +34,7 @@ public class Game {
 	private Integer size;
 
 	public Game(Piece[][] board) {
-		this.board.setBoard(board);
+		this.board.setTable(board);
 	}
 	
 	public Game() {}
@@ -72,7 +72,7 @@ public class Game {
 
 	@Override
 	public String toString() {
-		return "Board [table=" + Arrays.toString(board.getBoard()) + ", status=" + status + "]";
+		return "Board [table=" + Arrays.toString(board.getTable()) + ", status=" + status + "]";
 	}
 
 }

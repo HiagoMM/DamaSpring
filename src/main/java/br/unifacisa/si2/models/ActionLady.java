@@ -15,7 +15,7 @@ public class ActionLady implements Action {
 
 	@Override
 	public List<PositionDTO> prevision(Game board, PositionDTO begin) throws InvalidPieceException {
-		Piece[][] matriz = board.getBoard().getBoard();
+		Piece[][] matriz = board.getBoard().getTable();
 
 		Piece p1 = matriz[begin.getPositionY()][begin.getPositionX()];
 		if (p1 == null) {
@@ -56,7 +56,7 @@ public class ActionLady implements Action {
 			int[] vars = new int[2];
 			posY += pos[0];
 			posX += pos[1];
-			if (inBoard(posX, posY)) {
+			if (inBoard(posX, posY,matriz)) {
 				if (matriz[posY][posX] == null) {
 					list.add(new PositionDTO(posY, posX));
 					vars[0] = posY;
@@ -67,7 +67,7 @@ public class ActionLady implements Action {
 					posY += pos[0];
 					posX += pos[1];
 					if (p.getType() == getOpponent(player)) {
-						if (inBoard(posX, posY) && matriz[posY][posX] == null) {
+						if (inBoard(posX, posY,matriz) && matriz[posY][posX] == null) {
 							list.add(new PositionDTO(posY, posX,eat));
 							vars = new int[0];
 						}
@@ -86,8 +86,8 @@ public class ActionLady implements Action {
 		return player.getType() == TypePlayer.PLAYER1 ? TypePlayer.PLAYER2 : TypePlayer.PLAYER1;
 	}
 
-	private boolean inBoard(int posX, int posY) {
-		return posX >= 0 && posY < 8 && posY >= 0 && posX < 8;
+	private boolean inBoard(int posX, int posY,Piece[][] matriz) {
+		return posX >= 0 && posY < matriz.length && posY >= 0 && posX < matriz.length;
 	}
 
 }

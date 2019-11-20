@@ -20,10 +20,10 @@ import br.unifacisa.si2.models.exceptions.InvalidPieceException;
 public class ActionService {
 
 	public ReturnPossiblePositionDTO getPossiblePosition(PositionAndBoardDTO position) throws InvalidPieceException {
-		Game board = position.getBoard();
+		Game board = position.getGame();
 		PositionDTO begin = position.getPosition();
 		List<PositionDTO> list = new ArrayList<PositionDTO>();
-		Piece[][] table = board.getBoard().getBoard();
+		Piece[][] table = board.getBoard().getTable();
 
 		ActionContext aC = new ActionContext();
 		int posx = begin.getPositionX();
@@ -46,8 +46,9 @@ public class ActionService {
 	}
 
 	public Game movPiece(MovPecaDTO posBoard) throws InvalidPieceException {
-		Game board = posBoard.getPositionAndBoardDTO().getBoard();
-		Piece[][] table = board.getBoard().getBoard();
+		Game board = posBoard.getPositionAndBoardDTO().getGame();
+		
+		Piece[][] table = board.getBoard().getTable();
 		List<PositionDTO> predictions = getPossiblePosition(posBoard.getPositionAndBoardDTO()).getPosition();
 		PositionDTO begin = posBoard.getPositionAndBoardDTO().getPosition();
 		PositionDTO end = posBoard.getEnd();
@@ -74,7 +75,7 @@ public class ActionService {
 				table[end.getPositionY()][end.getPositionX()].setDama(true);
 			}
 		} else {
-			if (end.getPositionY() == 7) {
+			if (end.getPositionY() == board.getSize()) {
 				table[end.getPositionY()][end.getPositionX()].setDama(true);
 			}
 		}

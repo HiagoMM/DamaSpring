@@ -18,7 +18,7 @@ public class ActionCommon implements Action {
 
 	public List<PositionDTO> prevision(Game board, PositionDTO begin) throws InvalidPieceException {
 		List<PositionDTO> list = new ArrayList<PositionDTO>();
-		Piece[][] matriz = board.getBoard().getBoard();
+		Piece[][] matriz = board.getBoard().getTable();
 
 		Piece p1 = matriz[begin.getPositionY()][begin.getPositionX()];
 		if (p1 == null) {
@@ -62,7 +62,7 @@ public class ActionCommon implements Action {
 		int anchorPosY = posY;
 		posX += pos[1];
 		posY += pos[0];
-		if (inBoard(posX, posY)) {
+		if (inBoard(posX, posY,matriz)) {
 			Piece piece = matriz[posY][posX];
 			if (piece == null) {
 				list.add(new PositionDTO(posY, posX));
@@ -80,7 +80,7 @@ public class ActionCommon implements Action {
 		for (int[] side : sides) {
 			posY += side[0];
 			posX += side[1];
-			if (inBoard(posX,posY)) {
+			if (inBoard(posX,posY,matriz)) {
 				Piece piece = matriz[posY][posX];
 				if (piece != null && piece.getType() == player) {
 					PositionDTO eat;
@@ -91,7 +91,7 @@ public class ActionCommon implements Action {
 					}
 					posY += side[0];
 					posX += side[1];
-					if (inBoard(posX, posY)) {
+					if (inBoard(posX, posY,matriz)) {
 						piece = matriz[posY][posX];
 						if (piece == null) {
 							PositionDTO eatablePos = new PositionDTO(posY, posX, eat);
@@ -123,8 +123,8 @@ public class ActionCommon implements Action {
 		
 	}
 
-	private boolean inBoard(int posX, int posY) {
-		return posX >= 0 && posY < 8 && posY >= 0 && posX < 8;
+	private boolean inBoard(int posX, int posY, Piece[][] matriz) {
+		return posX >= 0 && posY < matriz.length && posY >= 0 && posX < matriz.length;
 	}
 
 }

@@ -8,7 +8,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class PositionAndBoardDTO {
 	
-	private Game board;
+	private Game game;
 	
 	private PositionDTO position;	
 	

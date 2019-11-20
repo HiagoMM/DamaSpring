@@ -5,16 +5,16 @@ import lombok.Data;
 @Data
 public class Board {
 
-	private Piece[][] board = new Piece[getSize()][getSize()];
+	private Piece[][] table = new Piece[getSize()][getSize()];
 
 	public Board() {
 		
-		for (int i = 0; i < board.length; i++) {
-			if (i <= 2) {
-				board[i] = createLine(i,TypePlayer.PLAYER2);
+		for (int i = 0; i < table.length; i++) {
+			if (i <= (getSize()/2) -2 ) {
+				table[i] = createLine(i,TypePlayer.PLAYER2);
 			}
-			if (i >= 5) {
-				board[i] = createLine(i,TypePlayer.PLAYER1);
+			if (i >= (getSize()/2) +1) {
+				table[i] = createLine(i,TypePlayer.PLAYER1);
 			}
 		}
 	}
