@@ -23,8 +23,11 @@ public class ActionLady implements Action {
 		}
 		Integer posX = begin.getPositionX();
 		Integer posY = begin.getPositionY();
-
-		return getPosition(matriz, posX, posY, board.getCurrentPlayer());
+		if (p1.getType() == board.getCurrentPlayer().getType()) { 
+			return getPosition(matriz, posX, posY, board.getCurrentPlayer());
+		} else {
+			throw new InvalidPieceException("Esta peça não é sua");
+		}
 	}
 
 	public List<PositionDTO> getPosition(Piece[][] matriz, Integer posX, Integer posY, Player player) {
@@ -41,10 +44,6 @@ public class ActionLady implements Action {
 			rightBackDiagonalControl = checkDiagonal(player, rightBackDiagonalControl, BOTTOM_RIGHT, matriz, list);
 			leftDiagonalControl = checkDiagonal(player, leftDiagonalControl, TOP_LEFT, matriz, list);
 			leftBackDiagonalControl = checkDiagonal(player, leftBackDiagonalControl, BOTTOM_LEFT, matriz, list);
-			System.out.println(rightBackDiagonalControl.length);
-			System.out.println(rightDiagonalControl.length);
-			System.out.println(leftDiagonalControl.length);
-			System.out.println(leftBackDiagonalControl.length);
 		}
 		return list;
 
@@ -64,16 +63,19 @@ public class ActionLady implements Action {
 					vars[1] = posX;
 				} else {
 					Piece p = matriz[posY][posX];
+					PositionDTO eat = new PositionDTO(posY, posX);
 					posY += pos[0];
 					posX += pos[1];
 					if (p.getType() == getOpponent(player)) {
 						if (inBoard(posX, posY) && matriz[posY][posX] == null) {
-							list.add(new PositionDTO(posY, posX));
+							list.add(new PositionDTO(posY, posX,eat));
 							vars = new int[0];
 						}
 					}
 					vars = new int[0];
 				}
+			} else {
+				vars = new int[0];
 			}
 			return vars;
 		}
