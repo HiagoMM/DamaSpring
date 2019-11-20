@@ -34,22 +34,7 @@ public class BoardController {
 		return new ResponseEntity<Game>(service.createBoard(players), HttpStatus.CREATED);
 	}
 	
-	@PostMapping("save")
-	@ResponseStatus(value = HttpStatus.OK)
-	public ResponseEntity<Game> saveBoard(@RequestBody Game board) {
-		return new ResponseEntity<Game>(service.saveBoard(board), HttpStatus.OK);
-	}
-	
-	@GetMapping("/all")
-	public ResponseEntity<List<Game>> getBoards() {
-		return new ResponseEntity<List<Game>>(service.getBoards(), HttpStatus.OK);
-	}
-	
-	@GetMapping("/{id}")
-	public ResponseEntity<Game> getBoardsById(@PathVariable String id) throws NotFoundBoardException {
-		return new ResponseEntity<Game>(service.getBoardsById(id), HttpStatus.OK);
-	}
-	
+
 	
 	
 	

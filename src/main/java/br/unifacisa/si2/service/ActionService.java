@@ -20,9 +20,6 @@ import br.unifacisa.si2.models.exceptions.InvalidPieceException;
 @Service
 public class ActionService {
 	
-	@Autowired
-	private ServiceBoard boardService;
-	
 	public ReturnPossiblePositionDTO getPossiblePosition(PositionAndBoardDTO position) throws InvalidPieceException {
 		Game board = position.getGame();
 		PositionDTO begin = position.getPosition();
@@ -70,7 +67,6 @@ public class ActionService {
 			setDama(table, board, end);
 			board = swapPlayer(board);
 			checkWin(board);
-			boardService.saveBoard(board);
 		}
 		return board;
 	}

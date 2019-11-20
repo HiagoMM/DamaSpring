@@ -3,18 +3,13 @@ package br.unifacisa.si2.models;
 import java.util.Arrays;
 import java.util.List;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
 import br.unifacisa.si2.models.exceptions.SizeBoardException;
 import lombok.Data;
 
 @Data
-@Document(collection = "Game")
 public class Game {
 	public static final List<Integer> BOARD_SIZE = Arrays.asList(8, 10, 12);
 
-	@Id
 	private String id;
 
 	private Board board;
