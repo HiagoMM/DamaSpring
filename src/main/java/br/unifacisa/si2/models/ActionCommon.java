@@ -19,7 +19,7 @@ public class ActionCommon implements Action {
 	public List<PositionDTO> prevision(Game board, PositionDTO begin) throws InvalidPieceException {
 		List<PositionDTO> list = new ArrayList<PositionDTO>();
 		Piece[][] matriz = board.getBoard().getTable();
-
+		
 		Piece p1 = matriz[begin.getPositionY()][begin.getPositionX()];
 		if (p1 == null) {
 			throw new InvalidPieceException("Peça não existe");
@@ -76,7 +76,7 @@ public class ActionCommon implements Action {
 			TypePlayer player,PositionDTO eatablePosPrev) {
 		int anchorPosX = posX;
 		int anchorPosY = posY;
-	
+		
 		for (int[] side : sides) {
 			posY += side[0];
 			posX += side[1];

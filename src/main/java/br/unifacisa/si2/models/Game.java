@@ -29,6 +29,8 @@ public class Game {
 
 	private Player currentPlayer;
 
+	private Player winner;
+	
 	private boolean status;
 
 	private Integer size;

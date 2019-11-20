@@ -36,9 +36,9 @@ public class ActionService {
 			} else {
 				aC.setActionCommon();
 			}
-			
+
 			list = aC.getAction().prevision(board, begin);
-			
+
 			return new ReturnPossiblePositionDTO(board, list);
 		}
 		throw new InvalidPieceException("Peça não existe");
@@ -47,7 +47,7 @@ public class ActionService {
 
 	public Game movPiece(MovPecaDTO posBoard) throws InvalidPieceException {
 		Game board = posBoard.getPositionAndBoardDTO().getGame();
-		
+
 		Piece[][] table = board.getBoard().getTable();
 		List<PositionDTO> predictions = getPossiblePosition(posBoard.getPositionAndBoardDTO()).getPosition();
 		PositionDTO begin = posBoard.getPositionAndBoardDTO().getPosition();
@@ -57,7 +57,7 @@ public class ActionService {
 				.filter(pre -> pre.getPositionX() == end.getPositionX() && pre.getPositionY() == end.getPositionY())
 				.collect(Collectors.toList());
 
-		PositionDTO eat = predictions.size() > 0 ? predictions.get(0).getEat() : null;
+		PositionDTO eat = predictions.size() > 0 ? predictions.get(predictions.size() - 1).getEat() : null;
 
 		if (predictions.size() > 0) {
 			table[end.getPositionY()][end.getPositionX()] = table[begin.getPositionY()][begin.getPositionX()];
@@ -65,6 +65,7 @@ public class ActionService {
 			eat(table, board, eat);
 			setDama(table, board, end);
 			board = swapPlayer(board);
+			checkWin(board);
 		}
 		return board;
 	}
@@ -75,7 +76,7 @@ public class ActionService {
 				table[end.getPositionY()][end.getPositionX()].setDama(true);
 			}
 		} else {
-			if (end.getPositionY() == board.getSize()) {
+			if (end.getPositionY() == board.getSize()-1) {
 				table[end.getPositionY()][end.getPositionX()].setDama(true);
 			}
 		}
@@ -109,4 +110,30 @@ public class ActionService {
 		return board;
 	}
 
+	private void checkWin(Game game) {
+	
+		switch (game.getSize()) {
+		case 8:
+			if (game.getP1Counter() == 12) {
+				game.setWinner(game.getPlayer1());
+			} else if (game.getP2Counter() == 12) {
+				game.setWinner(game.getPlayer2());
+			}
+			break;
+		case 10:
+			if (game.getP1Counter() == 20) {
+				game.setWinner(game.getPlayer1());
+			} else if (game.getP2Counter() == 20) {
+				game.setWinner(game.getPlayer2());
+			}
+			break;
+		case 12:
+			if (game.getP1Counter() == 30) {
+				game.setWinner(game.getPlayer1());
+			} else if (game.getP2Counter() == 30) {
+				game.setWinner(game.getPlayer2());
+			}
+			break;
+		}
+	}
 }
