@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.unifacisa.si2.dto.MovPecaDTO;
@@ -18,7 +19,10 @@ import br.unifacisa.si2.models.exceptions.InvalidPieceException;
 
 @Service
 public class ActionService {
-
+	
+	@Autowired
+	private ServiceBoard boardService;
+	
 	public ReturnPossiblePositionDTO getPossiblePosition(PositionAndBoardDTO position) throws InvalidPieceException {
 		Game board = position.getGame();
 		PositionDTO begin = position.getPosition();
@@ -66,6 +70,7 @@ public class ActionService {
 			setDama(table, board, end);
 			board = swapPlayer(board);
 			checkWin(board);
+			boardService.saveBoard(board);
 		}
 		return board;
 	}

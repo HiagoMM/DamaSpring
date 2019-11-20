@@ -21,11 +21,11 @@ public class ServiceBoard {
 	public Game createBoard(PlayersDTO players) throws SizeBoardException {
 		players.getPlayer1().setType(TypePlayer.PLAYER1);
 		players.getPlayer2().setType(TypePlayer.PLAYER2);
-		return new Game(players.getPlayer1(), players.getPlayer2(),players.getSize());
+		return repository.insert(new Game(players.getPlayer1(), players.getPlayer2(),players.getSize()));
 	}
 
 	public Game saveBoard(Game board) {
-		return repository.insert(board);
+		return repository.save(board);
 	}
 
 	public List<Game> getBoards() {
