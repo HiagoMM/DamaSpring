@@ -12,7 +12,10 @@ public class PositionDTO {
 	private int positionX;
 	
 	private PositionDTO eat;
-
+	
+	public PositionDTO() {
+	}
+	
 	public PositionDTO(int positionY, int positionX) {
 		this.positionY = positionY;
 		this.positionX = positionX;
