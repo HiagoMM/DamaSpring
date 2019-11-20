@@ -9,4 +9,6 @@ public class Board12x12 extends Board{
 	public Integer getSize() {
 		return SIZE;
 	}
+	
+	public Board12x12() {}
 }

@@ -12,4 +12,6 @@ public class Board8x8 extends Board {
 		return SIZE;
 	}
 	
+	public Board8x8() {}
+	
 }

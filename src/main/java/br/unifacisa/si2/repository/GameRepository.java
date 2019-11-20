@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import br.unifacisa.si2.models.Game;
 
 @Repository
-public interface BoardRepository extends MongoRepository<Game, String> {
+public interface GameRepository extends MongoRepository<Game, String> {
 
 }

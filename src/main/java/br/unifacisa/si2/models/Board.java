@@ -3,7 +3,7 @@ package br.unifacisa.si2.models;
 import lombok.Data;
 
 @Data
-public abstract class Board {
+public class Board {
 
 	private Piece[][] board = new Piece[getSize()][getSize()];
 
@@ -37,8 +37,8 @@ public abstract class Board {
 		return new Piece(player, false);
 	}
 	
-	
-	
-	public abstract Integer getSize();
+	public Integer getSize() {
+		return 8;
+	}
 	
 }	

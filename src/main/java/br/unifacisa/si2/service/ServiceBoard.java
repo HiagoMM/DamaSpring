@@ -9,14 +9,14 @@ import br.unifacisa.si2.dto.PlayersDTO;
 import br.unifacisa.si2.models.Game;
 import br.unifacisa.si2.models.TypePlayer;
 import br.unifacisa.si2.models.exceptions.SizeBoardException;
-import br.unifacisa.si2.repository.BoardRepository;
+import br.unifacisa.si2.repository.GameRepository;
 import br.unifacisa.si2.service.exception.NotFoundBoardException;
 
 @Service
 public class ServiceBoard {
 	
 	@Autowired
-	private BoardRepository repository;
+	private GameRepository repository;
 
 	public Game createBoard(PlayersDTO players) throws SizeBoardException {
 		players.getPlayer1().setType(TypePlayer.PLAYER1);

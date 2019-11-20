@@ -10,9 +10,8 @@ import br.unifacisa.si2.models.exceptions.SizeBoardException;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
 @Data
-@Document(collection = "board")
+@Document(collection = "Game")
 public class Game {
 	public static final List<Integer> BOARD_SIZE = Arrays.asList(8, 10, 12);
 
@@ -33,19 +32,22 @@ public class Game {
 
 	private boolean status;
 
-	private Integer tamanho;
+	private Integer size;
 
 	public Game(Piece[][] board) {
 		this.board.setBoard(board);
 	}
+	
+	public Game() {}
 
-	public Game(Player pOne, Player pTwo, Integer tamanho) throws SizeBoardException {
+	public Game(Player pOne, Player pTwo, Integer size) throws SizeBoardException {
 		this.player1 = pOne;
 		this.player2 = pTwo;
+		this.size = size;
 		this.currentPlayer = pOne;
 		BoardContext bc = new BoardContext();
 
-		switch (tamanho) {
+		switch (size) {
 		case 8:
 			bc.set8x8();
 			break;
