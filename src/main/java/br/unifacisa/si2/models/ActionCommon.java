@@ -113,7 +113,6 @@ public class ActionCommon implements Action {
 		int cont = 0;
 		exclude[0] = exclude[0] * -1;
 		exclude[1] = exclude[1] * -1;
-		System.out.println();
 		for (int[] side : ALL_SIDES.clone()) {
 			if (!(side[0] == exclude[0] && side[1] == exclude[1])) {
 				newSides[cont] = side;

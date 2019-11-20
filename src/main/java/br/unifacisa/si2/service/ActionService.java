@@ -63,15 +63,30 @@ public class ActionService {
 		if (predictions.size() > 0) {
 			table[end.getPositionY()][end.getPositionX()] = table[begin.getPositionY()][begin.getPositionX()];
 			table[begin.getPositionY()][begin.getPositionX()] = null;
-			
 			eat(table, board, eat);
-
+			setDama(table, board, end);
 			board = swapPlayer(board);
 		}
 		return board;
 	}
 
+<<<<<<< HEAD
 	private Game eat(Piece[][] table, Game board, PositionDTO eat) {
+=======
+	private void setDama(Piece[][] table, Board board, PositionDTO end) {
+		if (board.getCurrentPlayer().getType() == TypePlayer.PLAYER1) {
+			if (end.getPositionY() == 0) {
+				table[end.getPositionY()][end.getPositionX()].setDama(true);
+			}
+		} else {
+			if (end.getPositionY() == 7) {
+				table[end.getPositionY()][end.getPositionX()].setDama(true);
+			}
+		}
+	}
+
+	private Board eat(Piece[][] table, Board board, PositionDTO eat) {
+>>>>>>> 221a65cd56ed8f8b3bed9b783e72cc4682dee083
 		while (eat != null) {
 			Piece eatPiece = table[eat.getPositionY()][eat.getPositionX()];
 			board = incCounter(board, eatPiece);
